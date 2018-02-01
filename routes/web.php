@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', ['as' => 'principal', 'uses' => 'BackController@index']);
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('trabajadores', 'TrabajadoresController');
+Route::resource('cursos', 'CursosController');
+Route::resource('delegados', 'DelegadosController');
+Route::resource('inspecciones', 'InspeccionesController');
+Route::resource('notificaciones', 'NotificacionesController');
+Route::resource('politicas', 'PoliticasController');
