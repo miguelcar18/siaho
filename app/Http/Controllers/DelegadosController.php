@@ -28,7 +28,7 @@ class DelegadosController extends Controller
      */
     public function index()
     {
-        $delegados = Delegado::All();
+        $delegados = \DB::select('SELECT delegados.id, delegados.fecha, delegados.tipo, delegados.trabajador, trabajadores.cedula, trabajadores.nombre, trabajadores.apellido,  (SELECT TIMESTAMPDIFF(YEAR,delegados.fecha,CURDATE()))  AS anios, (SELECT (TIMESTAMPDIFF(MONTH,delegados.fecha,CURDATE())) - (TIMESTAMPDIFF(YEAR,delegados.fecha,CURDATE()) * 12)) AS meses FROM delegados INNER JOIN trabajadores ON trabajadores.id= delegados.trabajador');
         return view('delegados.index', compact('delegados'));
     }
 
@@ -126,9 +126,9 @@ class DelegadosController extends Controller
     {
         if (is_null ($delegado))
             \App::abort(404);
-        $nombreCompleto = $trabajador->id;
-        $id = $trabajador->id;
-        $trabajador->delete();
+        $nombreCompleto = $delegado->nombreTrabajador->nombre.' '.$delegado->nombreTrabajador->apellido;
+        $id = $delegado->id;
+        $delegado->delete();
         if (\Request::ajax()) {
             return Response::json(array (
                 'success' => true,

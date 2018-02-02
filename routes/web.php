@@ -13,6 +13,7 @@
 
 Route::get('/', ['as' => 'principal', 'uses' => 'BackController@index']);
 Auth::routes();
+Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('trabajadores', 'TrabajadoresController');
 Route::resource('cursos', 'CursosController');

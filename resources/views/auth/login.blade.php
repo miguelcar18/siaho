@@ -97,6 +97,8 @@
         <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
+        <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+
         <!-- Toastr js -->
         <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
 

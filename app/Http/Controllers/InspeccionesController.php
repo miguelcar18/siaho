@@ -53,7 +53,7 @@ class InspeccionesController extends Controller
         	$separarFecha 	= explode('/', $request['fecha']);
             $fechaSql 		= $separarFecha[2].'-'.$separarFecha[1].'-'.$separarFecha[0];
             $campos = [
-                'fecha' 	=> $r$fechaSql, 
+                'fecha' 	=> $fechaSql, 
                 'tipo' 		=> $request['tipo'],
                 'realizado' => $request['realizado']
             ];
@@ -103,7 +103,7 @@ class InspeccionesController extends Controller
             $separarFecha 	= explode('/', $request['fecha']);
             $fechaSql 		= $separarFecha[2].'-'.$separarFecha[1].'-'.$separarFecha[0];
             $campos = [
-                'fecha' 	=> $r$fechaSql, 
+                'fecha' 	=> $fechaSql, 
                 'tipo' 		=> $request['tipo'],
                 'realizado' => $request['realizado']
             ];
@@ -127,7 +127,7 @@ class InspeccionesController extends Controller
         $inspeccion = Inspeccion::find($id);
         if (is_null ($inspeccion))
             \App::abort(404);
-        $nombreCompleto = $inspeccion->nombre.' '.$inspeccion->apellido;
+        $nombreCompleto = $inspeccion->tipo;
         $id = $inspeccion->id;
         $inspeccion->delete();
         if (\Request::ajax()) {

@@ -32,6 +32,12 @@ toastr.options = {
     hideMethod: "fadeOut"
 }
 
+jQuery('.datepicker').datepicker({
+    autoclose: true,
+    todayHighlight: true,
+    format: "dd/mm/yyyy"
+});
+
 var tablaData = $('#datatable').DataTable({
     "language": {
         "lengthMenu": "Mostrar _MENU_ resultados por página",
@@ -65,7 +71,7 @@ $('.tooltip-error').click(function (e) {
         confirmButtonClass: 'btn-warning',
         confirmButtonText: "Si",
         cancelButtonText: "No",
-        closeOnConfirm: false
+        closeOnConfirm: true
     }, function () {
         row.fadeOut(1000);
         $.post(action, form.serialize(), function(result) {
@@ -488,27 +494,29 @@ $("form#trabajadorForm").validate({
     }
 });
 
-/*
-$("form#configuracionForm").validate({
+$("form#cursoForm").validate({
     rules: {
-        cantidadMensajes: {
+        nombre: {
+            required: true
+        },
+        trabajador: {
+            required: true
+        },
+        horas: {
             required: true, 
-            number: true,
-            min: 1
-        },
-        velocidad: {
-            required: true
+            number: true
         }
     },
     messages: {
-        cantidadMensajes: {
-            required: 'Ingrese la cantidad de mensajes', 
-            number: 'Ingrese solo números', 
-            min: 'La cantidad mínima a mostrar es un (1) mensaje'
-
+        nombre: {
+            required: 'Ingrese un nombre'
         },
-        velocidad: {
-            required: 'Seleccione una velocidad'
+        trabajador: {
+            required: 'Seleccione un trabajador'
+        }, 
+        horas: {
+            required: 'Ingrese las horas', 
+            number: 'Ingrese solo números'
         }
     },
     invalidHandler: function (event, validator) { 
@@ -539,100 +547,425 @@ $("form#configuracionForm").validate({
     },
     submitHandler: function () {
         var token = $("input[name=_token]").val();
-        var formData = new FormData($("form#configuracionForm")[0]);
+        var formData = new FormData($("form#cursoForm")[0]);
         $.ajax({
-            url:  $("form#configuracionForm").attr('action'),
-            type: $("form#configuracionForm").attr('method'),
+            url:  $("form#cursoForm").attr('action'),
+            type: $("form#cursoForm").attr('method'),
             headers: {'X-CSRF-TOKEN' : token},
             data: formData,
             processData: false,
             contentType: false,
             beforeSend:function(){
-                $("button#configuracionSubmit").addClass('disabled');
-            },
-            success:function(respuesta){
-                swal("¡Registrado!", "'Configuración actualizada satisfactoriamente'", "success");
-                $("button#configuracionSubmit").removeClass('disabled');
-            }
-        })
-        return false;
-    }
-});
-
-$("form#mensajeForm").validate({
-    rules: {
-        status: {
-            required: true
-        },
-        mensaje: {
-            required: true
-        }
-    },
-    messages: {
-        status: {
-            required: 'Ingrese un asunto'
-        },
-        mensaje: {
-            required: 'Ingrese un mensaje'
-        }
-    },
-    invalidHandler: function (event, validator) { 
-        $('.alert-error', $('.login-form')).show();
-    },
-
-    highlight: function (e) {
-        $(e).closest('.form-group').removeClass('has-info').addClass('has-danger');
-    },
-
-    success: function (e) {
-        $(e).closest('.form-group').removeClass('has-danger').addClass('has-success');
-        $(e).remove();
-    },
-    errorPlacement: function (error, element) {
-        if(element.is(':checkbox') || element.is(':radio')) {
-            var controls = element.closest('.controls');
-            if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
-            else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
-        }
-        else if(element.is('.select2')) {
-            error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
-        }
-        else if(element.is('.chzn-select')) {
-            error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
-        }
-        else error.insertAfter(element);
-    },
-    submitHandler: function () {
-        var accion = '';
-        if($("button#mensajeSubmit").attr('data') == 1)
-            accion = 'enviado';
-        else if($("button#mensajeSubmit").attr('data') == 0)
-            accion = 'actualizado';
-        var alertMessage = 'Mensaje '+accion+'';
-        var token = $("input[name=_token]").val();
-        var formData = new FormData($("form#mensajeForm")[0]);
-        $.ajax({
-            url:  $("form#mensajeForm").attr('action'),
-            type: $("form#mensajeForm").attr('method'),
-            headers: {'X-CSRF-TOKEN' : token},
-            data: formData,
-            processData: false,
-            contentType: false,
-            beforeSend:function(){
-                $("button#mensajeSubmit").addClass('disabled');
+                $("button#cursoSubmit").addClass('disabled');
                 $("button#cancelar").addClass('disabled');
             },
-            success:function(respuesta){
-                //swal("¡Registrado!", alertMessage, "success");
-                if($("button#mensajeSubmit").attr('data') == 1) {
-                    $('form#mensajeForm').reset();
-                    $('.form-group').removeClass('has-success');
+            success:function(response){
+                var accion = '';
+                var alertMessage = '';
+                var count = 0;
+
+                if(response.validations == false){
+                    //alertMessage = "<b>Campos únicos:</b> <br>";
+                    $.each(response.errors, function(index, value){
+                        count++;
+                        alertMessage+= count+". "+value+"<br>";
+                    });
+                    toastr["warning"](alertMessage);
                 }
-                $("button#mensajeSubmit").removeClass('disabled');
+                else if(response.validations == true){
+                    if($("button#cursoSubmit").attr('data') == 1)
+                        accion = 'registrado';
+                    else if($("button#cursoSubmit").attr('data') == 0)
+                        accion = 'actualizado';
+                    var alertMessage = 'Curso '+accion+'';
+                    toastr["success"](alertMessage);
+                    if($("button#cursoSubmit").attr('data') == 1) {
+                        $('form#cursoForm').reset();
+                        $('.form-group').removeClass('has-success');
+                    }
+                }             
+                $("button#cursoSubmit").removeClass('disabled');
                 $("button#cancelar").removeClass('disabled');
             }
         })
         return false;
     }
 });
-*/
+
+$("form#delegadoForm").validate({
+    rules: {
+        fecha: {
+            required: true
+        },
+        trabajador: {
+            required: true
+        },
+        tipo: {
+            required: true
+        }
+    },
+    messages: {
+        fecha: {
+            required: 'Ingrese una fecha'
+        },
+        trabajador: {
+            required: 'Seleccione un trabajador'
+        }, 
+        tipo: {
+            required: 'Ingrese el tipo de delegado'
+        }
+    },
+    invalidHandler: function (event, validator) { 
+        $('.alert-error', $('.login-form')).show();
+    },
+
+    highlight: function (e) {
+        $(e).closest('.form-group').removeClass('has-info').addClass('has-danger');
+    },
+
+    success: function (e) {
+        $(e).closest('.form-group').removeClass('has-danger').addClass('has-success');
+        $(e).remove();
+    },
+    errorPlacement: function (error, element) {
+        if(element.is(':checkbox') || element.is(':radio')) {
+            var controls = element.closest('.controls');
+            if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+            else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+        }
+        else if(element.is('.select2')) {
+            error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+        }
+        else if(element.is('.chzn-select')) {
+            error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
+        }
+        else error.insertAfter(element);
+    },
+    submitHandler: function () {
+        var token = $("input[name=_token]").val();
+        var formData = new FormData($("form#delegadoForm")[0]);
+        $.ajax({
+            url:  $("form#delegadoForm").attr('action'),
+            type: $("form#delegadoForm").attr('method'),
+            headers: {'X-CSRF-TOKEN' : token},
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend:function(){
+                $("button#delegadoSubmit").addClass('disabled');
+                $("button#cancelar").addClass('disabled');
+            },
+            success:function(response){
+                var accion = '';
+                var alertMessage = '';
+                var count = 0;
+
+                if(response.validations == false){
+                    //alertMessage = "<b>Campos únicos:</b> <br>";
+                    $.each(response.errors, function(index, value){
+                        count++;
+                        alertMessage+= count+". "+value+"<br>";
+                    });
+                    toastr["warning"](alertMessage);
+                }
+                else if(response.validations == true){
+                    if($("button#delegadoSubmit").attr('data') == 1)
+                        accion = 'registrado';
+                    else if($("button#delegadoSubmit").attr('data') == 0)
+                        accion = 'actualizado';
+                    var alertMessage = 'Delegado '+accion+'';
+                    toastr["success"](alertMessage);
+                    if($("button#delegadoSubmit").attr('data') == 1) {
+                        $('form#delegadoForm').reset();
+                        $('.form-group').removeClass('has-success');
+                    }
+                }             
+                $("button#delegadoSubmit").removeClass('disabled');
+                $("button#cancelar").removeClass('disabled');
+            }
+        })
+        return false;
+    }
+});
+
+$("form#inspeccionForm").validate({
+    rules: {
+        fecha: {
+            required: true
+        },
+        realizado: {
+            required: true
+        },
+        tipo: {
+            required: true
+        }
+    },
+    messages: {
+        fecha: {
+            required: 'Ingrese una fecha'
+        },
+        realizado: {
+            required: 'Seleccione una opción'
+        }, 
+        tipo: {
+            required: 'Ingrese el tipo de inspección'
+        }
+    },
+    invalidHandler: function (event, validator) { 
+        $('.alert-error', $('.login-form')).show();
+    },
+
+    highlight: function (e) {
+        $(e).closest('.form-group').removeClass('has-info').addClass('has-danger');
+    },
+
+    success: function (e) {
+        $(e).closest('.form-group').removeClass('has-danger').addClass('has-success');
+        $(e).remove();
+    },
+    errorPlacement: function (error, element) {
+        if(element.is(':checkbox') || element.is(':radio')) {
+            var controls = element.closest('.controls');
+            if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+            else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+        }
+        else if(element.is('.select2')) {
+            error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+        }
+        else if(element.is('.chzn-select')) {
+            error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
+        }
+        else error.insertAfter(element);
+    },
+    submitHandler: function () {
+        var token = $("input[name=_token]").val();
+        var formData = new FormData($("form#inspeccionForm")[0]);
+        $.ajax({
+            url:  $("form#inspeccionForm").attr('action'),
+            type: $("form#inspeccionForm").attr('method'),
+            headers: {'X-CSRF-TOKEN' : token},
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend:function(){
+                $("button#inspeccionSubmit").addClass('disabled');
+                $("button#cancelar").addClass('disabled');
+            },
+            success:function(response){
+                var accion = '';
+                var alertMessage = '';
+                var count = 0;
+
+                if(response.validations == false){
+                    //alertMessage = "<b>Campos únicos:</b> <br>";
+                    $.each(response.errors, function(index, value){
+                        count++;
+                        alertMessage+= count+". "+value+"<br>";
+                    });
+                    toastr["warning"](alertMessage);
+                }
+                else if(response.validations == true){
+                    if($("button#inspeccionSubmit").attr('data') == 1)
+                        accion = 'registrada';
+                    else if($("button#inspeccionSubmit").attr('data') == 0)
+                        accion = 'actualizada';
+                    var alertMessage = 'Inspección '+accion+'';
+                    toastr["success"](alertMessage);
+                    if($("button#inspeccionSubmit").attr('data') == 1) {
+                        $('form#inspeccionForm').reset();
+                        $('.form-group').removeClass('has-success');
+                    }
+                }             
+                $("button#inspeccionSubmit").removeClass('disabled');
+                $("button#cancelar").removeClass('disabled');
+            }
+        })
+        return false;
+    }
+});
+
+$("form#notificacionForm").validate({
+    rules: {
+        fecha: {
+            required: true
+        },
+        lugar:{
+            required: true
+        },
+        trabajador: {
+            required: true
+        }
+    },
+    messages: {
+        fecha: {
+            required: 'Ingrese una fecha'
+        },
+        lugar:{
+            required: 'Ingrese un lugar'
+        },
+        trabajador: {
+            required: 'Seleccione un trabajador'
+        }
+    },
+    invalidHandler: function (event, validator) { 
+        $('.alert-error', $('.login-form')).show();
+    },
+
+    highlight: function (e) {
+        $(e).closest('.form-group').removeClass('has-info').addClass('has-danger');
+    },
+
+    success: function (e) {
+        $(e).closest('.form-group').removeClass('has-danger').addClass('has-success');
+        $(e).remove();
+    },
+    errorPlacement: function (error, element) {
+        if(element.is(':checkbox') || element.is(':radio')) {
+            var controls = element.closest('.controls');
+            if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+            else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+        }
+        else if(element.is('.select2')) {
+            error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+        }
+        else if(element.is('.chzn-select')) {
+            error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
+        }
+        else error.insertAfter(element);
+    },
+    submitHandler: function () {
+        var token = $("input[name=_token]").val();
+        var formData = new FormData($("form#notificacionForm")[0]);
+        $.ajax({
+            url:  $("form#notificacionForm").attr('action'),
+            type: $("form#notificacionForm").attr('method'),
+            headers: {'X-CSRF-TOKEN' : token},
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend:function(){
+                $("button#notificacionSubmit").addClass('disabled');
+                $("button#cancelar").addClass('disabled');
+            },
+            success:function(response){
+                var accion = '';
+                var alertMessage = '';
+                var count = 0;
+
+                if(response.validations == false){
+                    //alertMessage = "<b>Campos únicos:</b> <br>";
+                    $.each(response.errors, function(index, value){
+                        count++;
+                        alertMessage+= count+". "+value+"<br>";
+                    });
+                    toastr["warning"](alertMessage);
+                }
+                else if(response.validations == true){
+                    if($("button#notificacionSubmit").attr('data') == 1)
+                        accion = 'registrada';
+                    else if($("button#notificacionSubmit").attr('data') == 0)
+                        accion = 'actualizada';
+                    var alertMessage = 'Notificación '+accion+'';
+                    toastr["success"](alertMessage);
+                    if($("button#notificacionSubmit").attr('data') == 1) {
+                        $('form#notificacionForm').reset();
+                        $('.form-group').removeClass('has-success');
+                    }
+                }             
+                $("button#notificacionSubmit").removeClass('disabled');
+                $("button#cancelar").removeClass('disabled');
+            }
+        })
+        return false;
+    }
+});
+
+$("form#politicaForm").validate({
+    rules: {
+        fecha: {
+            required: true
+        },
+        trabajador: {
+            required: true
+        }
+    },
+    messages: {
+        fecha: {
+            required: 'Ingrese una fecha'
+        },
+        trabajador: {
+            required: 'Seleccione un trabajador'
+        }
+    },
+    invalidHandler: function (event, validator) { 
+        $('.alert-error', $('.login-form')).show();
+    },
+
+    highlight: function (e) {
+        $(e).closest('.form-group').removeClass('has-info').addClass('has-danger');
+    },
+
+    success: function (e) {
+        $(e).closest('.form-group').removeClass('has-danger').addClass('has-success');
+        $(e).remove();
+    },
+    errorPlacement: function (error, element) {
+        if(element.is(':checkbox') || element.is(':radio')) {
+            var controls = element.closest('.controls');
+            if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+            else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+        }
+        else if(element.is('.select2')) {
+            error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+        }
+        else if(element.is('.chzn-select')) {
+            error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
+        }
+        else error.insertAfter(element);
+    },
+    submitHandler: function () {
+        var token = $("input[name=_token]").val();
+        var formData = new FormData($("form#politicaForm")[0]);
+        $.ajax({
+            url:  $("form#politicaForm").attr('action'),
+            type: $("form#politicaForm").attr('method'),
+            headers: {'X-CSRF-TOKEN' : token},
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend:function(){
+                $("button#politicaSubmit").addClass('disabled');
+                $("button#cancelar").addClass('disabled');
+            },
+            success:function(response){
+                var accion = '';
+                var alertMessage = '';
+                var count = 0;
+
+                if(response.validations == false){
+                    //alertMessage = "<b>Campos únicos:</b> <br>";
+                    $.each(response.errors, function(index, value){
+                        count++;
+                        alertMessage+= count+". "+value+"<br>";
+                    });
+                    toastr["warning"](alertMessage);
+                }
+                else if(response.validations == true){
+                    if($("button#politicaSubmit").attr('data') == 1)
+                        accion = 'registrada';
+                    else if($("button#politicaSubmit").attr('data') == 0)
+                        accion = 'actualizada';
+                    var alertMessage = 'Política '+accion+'';
+                    toastr["success"](alertMessage);
+                    if($("button#politicaSubmit").attr('data') == 1) {
+                        $('form#politicaForm').reset();
+                        $('.form-group').removeClass('has-success');
+                    }
+                }             
+                $("button#politicaSubmit").removeClass('disabled');
+                $("button#cancelar").removeClass('disabled');
+            }
+        })
+        return false;
+    }
+});

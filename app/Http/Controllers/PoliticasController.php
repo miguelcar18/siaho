@@ -28,7 +28,7 @@ class PoliticasController extends Controller
      */
     public function index()
     {
-        $politicas = Politica::All();
+        $politicas = \DB::select('SELECT politicas.id, politicas.fecha, politicas.trabajador, trabajadores.cedula, trabajadores.nombre, trabajadores.apellido,  (SELECT TIMESTAMPDIFF(YEAR,politicas.fecha,CURDATE()))  AS anios, (SELECT (TIMESTAMPDIFF(MONTH,politicas.fecha,CURDATE())) - (TIMESTAMPDIFF(YEAR,politicas.fecha,CURDATE()) * 12)) AS meses FROM politicas INNER JOIN trabajadores ON trabajadores.id= politicas.trabajador');
         return view('politicas.index', compact('politicas'));
     }
 
@@ -124,17 +124,17 @@ class PoliticasController extends Controller
     {
         if (is_null ($politica))
             \App::abort(404);
-        $nombreCompleto = $trabajador->id;
-        $id = $trabajador->id;
-        $trabajador->delete();
+        $nombreCompleto = $politica->nombreTrabajador->nombre.' '.$politica->nombreTrabajador->apellido;
+        $id = $politica->id;
+        $politica->delete();
         if (\Request::ajax()) {
             return Response::json(array (
                 'success' => true,
-                'msg'     => 'Política "' . $nombreCompleto .'" eliminada satisfactoriamente',
+                'msg'     => 'Política dada a"' . $nombreCompleto .'" eliminada satisfactoriamente',
                 'id'      => $id
             ));
         } else {
-            $mensaje = 'Política "'. $nombreCompleto .'" eliminada satisfactoriamente';
+            $mensaje = 'Política dada a"'. $nombreCompleto .'" eliminada satisfactoriamente';
             Session::flash('message', $mensaje);
             return Redirect::route('politicas.index');
         }

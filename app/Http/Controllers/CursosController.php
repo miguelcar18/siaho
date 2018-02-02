@@ -122,9 +122,9 @@ class CursosController extends Controller
     {
         if (is_null ($curso))
             \App::abort(404);
-        $nombreCompleto = $trabajador->nombre.' '.$trabajador->apellido;
-        $id = $trabajador->id;
-        $trabajador->delete();
+        $nombreCompleto = $curso->nombre;
+        $id = $curso->id;
+        $curso->delete();
         if (\Request::ajax()) {
             return Response::json(array (
                 'success' => true,
@@ -136,5 +136,14 @@ class CursosController extends Controller
             Session::flash('message', $mensaje);
             return Redirect::route('cursos.index');
         }
+    }
+
+    public function horasTotales($id){
+        $datos = Curso::where('trabajador', $id)->get();
+        $total = 0;
+        foreach ($datos as $dato) {
+            $total  = $total + $dato->horas;
+        }
+        return $total;
     }
 }

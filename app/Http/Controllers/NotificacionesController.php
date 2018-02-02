@@ -72,8 +72,9 @@ class NotificacionesController extends Controller
      * @param  \App\Notificacion  $notificacion
      * @return \Illuminate\Http\Response
      */
-    public function show(Notificacion $notificacion)
+    public function show(Notificacion $notificacion, $id)
     {
+        $notificacion = Notificacion::find($id);
         return view('notificaciones.show', ['notificacion' => $notificacion]);
     }
 
@@ -83,8 +84,9 @@ class NotificacionesController extends Controller
      * @param  \App\Notificacion  $notificacion
      * @return \Illuminate\Http\Response
      */
-    public function edit(Notificacion $notificacion)
+    public function edit(Notificacion $notificacion, $id)
     {
+        $notificacion = Notificacion::find($id);
         $trabajadores = array('' => "Seleccione") + Trabajador::orderBy('id','ASC')->get()->pluck('cedula_nombre', 'id')->toArray();
         return view('notificaciones.edit', ['notificacion' => $notificacion, 'trabajadores' => $trabajadores]);
     }
@@ -96,8 +98,9 @@ class NotificacionesController extends Controller
      * @param  \App\Notificacion  $notificacion
      * @return \Illuminate\Http\Response
      */
-    public function update(NotificacionesRequest $request, Notificacion $notificacion)
+    public function update(NotificacionesRequest $request, Notificacion $notificacion, $id)
     {
+        $notificacion = Notificacion::find($id);
         if($request->ajax())
         {
         	$separarFecha 	= explode('/', $request['fecha']);
@@ -122,21 +125,22 @@ class NotificacionesController extends Controller
      * @param  \App\Notificacion  $notificacion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Notificacion $notificacion)
+    public function destroy(Notificacion $notificacion, $id)
     {
+        $notificacion = Notificacion::find($id);
         if (is_null ($notificacion))
             \App::abort(404);
-        $nombreCompleto = $trabajador->id;
-        $id = $trabajador->id;
-        $trabajador->delete();
+        $nombreCompleto = $notificacion->lugar;
+        $id = $notificacion->id;
+        $notificacion->delete();
         if (\Request::ajax()) {
             return Response::json(array (
                 'success' => true,
-                'msg'     => 'Notificación "' . $nombreCompleto .'" eliminada satisfactoriamente',
+                'msg'     => 'Notificación en "' . $nombreCompleto .'" eliminada satisfactoriamente',
                 'id'      => $id
             ));
         } else {
-            $mensaje = 'Notificación "'. $nombreCompleto .'" eliminada satisfactoriamente';
+            $mensaje = 'Notificación en "'. $nombreCompleto .'" eliminada satisfactoriamente';
             Session::flash('message', $mensaje);
             return Redirect::route('notificaciones.index');
         }

@@ -16,35 +16,35 @@
             </li>
         </ul>
         <ul class="nav navbar-nav pull-right">
+            {{--
             <li class="nav-item dropdown notification-list">
                 <a class="nav-link waves-effect waves-light right-bar-toggle" href="javascript:void(0);">
                     <i class="zmdi zmdi-format-subject noti-icon"></i>
                 </a>
             </li>
+            --}}
             <li class="nav-item dropdown notification-list">
                 <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <img src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="user" class="img-circle">
+                    @if(Auth::user()->path == '')
+                    <img src="{{ asset('uploads/usuarios/unfile.jpg') }}" alt="user" class="img-circle" name="fotoNavbar" id="fotoNavbar">
+                    @else
+                    <img src="{{ asset('uploads/usuarios/'.Auth::user()->path) }}" alt="user" class="img-circle" name="fotoNavbar" id="fotoNavbar">
+                    @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-right dropdown-arrow profile-dropdown " aria-labelledby="Preview">
                     <!-- item-->
                     <div class="dropdown-item noti-title">
-                        <h5 class="text-overflow"><small>Welcome ! John</small> </h5>
+                        <h5 class="text-overflow"><small>Bienvenido ! {!! Auth::user()->name !!}</small> </h5>
                     </div>
+                    {{--
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item">
                         <i class="zmdi zmdi-account-circle"></i> <span>Profile</span>
                     </a>
+                    --}}
                     <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="zmdi zmdi-settings"></i> <span>Settings</span>
-                    </a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="zmdi zmdi-lock-open"></i> <span>Lock Screen</span>
-                    </a>
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                        <i class="zmdi zmdi-power"></i> <span>Logout</span>
+                    <a href="{{ URL::route('logout') }}" class="dropdown-item notify-item">
+                        <i class="zmdi zmdi-power"></i> <span>Salir</span>
                     </a>
                 </div>
             </li>
