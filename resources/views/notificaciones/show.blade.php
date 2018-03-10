@@ -1,11 +1,11 @@
 @extends('layouts.base')
 
 @section('titulo')
-    <title>Datos de la notificación - SIAHO</title>
+    <title>Datos de la inducción - SIAHO</title>
 @stop
 
 @section('contenido')
-@include('layouts.breadcrum', ['titulo' => 'Información de la notificación', 'tituloModulo' => 'Notificaciones', 'rutaModulo' => URL::route('notificaciones.index'), 'tituloSubmodulo' => 'Información de la notificación'])
+@include('layouts.breadcrum', ['titulo' => 'Información de la inducción', 'tituloModulo' => 'Inducciones', 'rutaModulo' => URL::route('notificaciones.index'), 'tituloSubmodulo' => 'Información de la inducción'])
 <div class="row">
 	<div class="col-xs-12">
 		<div class="card-box table-responsive">
@@ -55,7 +55,7 @@
 	$(function () {
 		$('.borrar').click(function (e) {
 			e.preventDefault();
-			var message = "¿Está realmente seguro(a) de eliminar esta notificación?";
+			var message = "¿Está realmente seguro(a) de eliminar esta inducción?";
 			var form = $('#form-eliminar-notificacion');
 			swal({
 				title: message,

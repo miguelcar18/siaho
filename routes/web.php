@@ -20,4 +20,4 @@ Route::resource('cursos', 'CursosController');
 Route::resource('delegados', 'DelegadosController');
 Route::resource('inspecciones', 'InspeccionesController');
 Route::resource('notificaciones', 'NotificacionesController');
-Route::resource('politicas', 'PoliticasController');
+//Route::resource('politicas', 'PoliticasController');

@@ -7,13 +7,18 @@
 @section('contenido')
 @include('layouts.breadcrum', ['titulo' => "Delegados", 'tituloModulo' => "Delegados"])
 <div class="row">
+	<div class="col-sm-6 col-sm-offset-3">
+		<img src="{{ asset('assets/images/backgrounds/delegados.jpg') }}" alt="img" class="img-thumbails"><br><br>
+	</div>
 	<div class="col-sm-12">
 		<div class="card-box table-responsive">
+			@if($contadorAdvertencias > 0)
 			<div class="col-sm-12">
 				<div class="alert alert-danger" role="alert">
 					<strong>¡Advertencia!</strong> Algunos delegados deben ser renovados próximamente.
 				</div>
 			</div>
+			@endif
 			<table id="datatable" class="table table-striped table-bordered">
 				<thead>
 					<tr>

@@ -52,7 +52,10 @@ class CursosController extends Controller
     public function store(CursosRequest $request)
     {
         if($request->ajax()){
+            $separarFecha   = explode('/', $request['fecha']);
+            $fechaSql       = $separarFecha[2].'-'.$separarFecha[1].'-'.$separarFecha[0];
             $campos = [
+                'fecha'         => $fechaSql, 
                 'nombre' 		=> $request['nombre'], 
                 'horas'      	=> $request['horas'],
                 'trabajador' 	=> $request['trabajador']
@@ -98,7 +101,10 @@ class CursosController extends Controller
     {
         if($request->ajax())
         {
+            $separarFecha   = explode('/', $request['fecha']);
+            $fechaSql       = $separarFecha[2].'-'.$separarFecha[1].'-'.$separarFecha[0];
             $campos = [
+                'fecha'         => $fechaSql, 
                 'nombre' 		=> $request['nombre'], 
                 'horas'      	=> $request['horas'],
                 'trabajador' 	=> $request['trabajador']
@@ -140,6 +146,41 @@ class CursosController extends Controller
 
     public function horasTotales($id){
         $datos = Curso::where('trabajador', $id)->get();
+        $total = 0;
+        foreach ($datos as $dato) {
+            $total  = $total + $dato->horas;
+        }
+        return $total;
+    }
+
+    public function horasTotalesMensual($id, $mes, $anio){
+        $datos = \DB::select('SELECT * FROM cursos WHERE trabajador = '.$id.' AND MONTH(fecha) = '.$mes.' AND YEAR (fecha) = '.$anio.'');
+        $total = 0;
+        foreach ($datos as $dato) {
+            $total  = $total + $dato->horas;
+        }
+        return $total;
+    }
+
+    public function horasTrimestres($id, $mes, $anio){
+        switch ($mes) {
+            case ($mes >= 1 && $mes <= 3):{
+                $datos = \DB::select('SELECT * FROM cursos WHERE trabajador = '.$id.' AND (fecha BETWEEN "'.$anio.'-01-01" AND "'.$anio.'-03-31")');
+                break;
+            }
+            case ($mes >= 4 && $mes <= 6):{
+                $datos = \DB::select('SELECT * FROM cursos WHERE trabajador = '.$id.' AND (fecha BETWEEN "'.$anio.'-04-01" AND "'.$anio.'-06-30")');
+                break;
+            }
+            case ($mes >= 7 && $mes <= 9):{
+                $datos = \DB::select('SELECT * FROM cursos WHERE trabajador = '.$id.' AND (fecha BETWEEN "'.$anio.'-07-01" AND "'.$anio.'-09-30")');
+                break;
+            }
+            case ($mes >= 10 && $mes <= 12):{
+                $datos = \DB::select('SELECT * FROM cursos WHERE trabajador = '.$id.' AND (fecha BETWEEN "'.$anio.'-10-01" AND "'.$anio.'-12-31")');
+                break;
+            }
+        }
         $total = 0;
         foreach ($datos as $dato) {
             $total  = $total + $dato->horas;

@@ -20,6 +20,12 @@
 		</div>
 	</div>
 	<div class="form-group row">
+		<label for="sede" class="col-sm-2 col-sm-offset-3 form-control-label">Sede <span class="text-danger">*</span></label>
+		<div class="col-sm-4">
+			{!! Form::select('sede', ["" => "Seleccione una opción", "Principal" => "Principal", "CADETEC" => "CADETEC", "Anexo I" => "Anexo I"], null, $attributes = array('id' => 'sede', 'class' => 'form-control', 'required' => true)) !!}
+		</div>
+	</div>
+	<div class="form-group row">
 		<label for="realizado" class="col-sm-2 col-sm-offset-3 form-control-label">Realizado <span class="text-danger">*</span></label>
 		<div class="col-sm-4">
 			{!! Form::select('realizado', ["" => "Seleccione una opción", "1" => "Si", "0" => "No"], null, $attributes = array('id' => 'realizado', 'class' => 'form-control', 'required' => true)) !!}

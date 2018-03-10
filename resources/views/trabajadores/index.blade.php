@@ -7,6 +7,9 @@
 @section('contenido')
 @include('layouts.breadcrum', ['titulo' => "Trabajadores", 'tituloModulo' => "Trabajadores"])
 <div class="row">
+	<div class="col-sm-6 col-sm-offset-3">
+		<img src="{{ asset('assets/images/backgrounds/trabajadores.jpg') }}" alt="img" class="img-thumbails"><br><br>
+	</div>
 	<div class="col-sm-12">
 		<div class="card-box table-responsive">
 			<table id="datatable" class="table table-striped table-bordered">

@@ -7,6 +7,9 @@
 @section('contenido')
 @include('layouts.breadcrum', ['titulo' => "Inspecciones", 'tituloModulo' => "Inspecciones"])
 <div class="row">
+	<div class="col-sm-6 col-sm-offset-3">
+		<img src="{{ asset('assets/images/backgrounds/inspecciones.jpg') }}" alt="img" class="img-thumbails"><br><br>
+	</div>
 	<div class="col-sm-12">
 		<div class="card-box table-responsive">
 			<table id="datatable" class="table table-striped table-bordered">
@@ -14,6 +17,7 @@
 					<tr>
 						<th>Tipo de inspección</th>
 						<th>Fecha</th>
+						<th>Sede</th>
 						<th>Realizada</th>
 						<th>Acciones</th>
 					</tr>
@@ -23,6 +27,7 @@
 						<tr>
                             <td>{{ $inspeccion->tipo }}</td>
                             <td>{{ date_format(date_create($inspeccion->fecha), 'd/m/Y') }}</td>
+                            <td>{{ $inspeccion->sede }}</td>
                             <td>
                             	@if($inspeccion->realizado == 1)
                             	Si

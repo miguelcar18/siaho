@@ -1,11 +1,11 @@
 @extends('layouts.base')
 
 @section('titulo')
-    <title>Nuevo notificación - SIAHO</title>
+    <title>Nuevo inducción - SIAHO</title>
 @stop
 
 @section('contenido')
-@include('layouts.breadcrum', ['titulo' => 'Nueva notificación', 'tituloModulo' => 'Notificaciones', 'rutaModulo' => URL::route('notificaciones.index'), 'tituloSubmodulo' => 'Nueva notificación'])
+@include('layouts.breadcrum', ['titulo' => 'Nueva inducción', 'tituloModulo' => 'Inducciones', 'rutaModulo' => URL::route('notificaciones.index'), 'tituloSubmodulo' => 'Nueva inducción'])
 <div class="row">
 	<div class="col-xs-12">
 		<div class="card-box">

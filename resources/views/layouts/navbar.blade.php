@@ -3,7 +3,7 @@
     <!-- LOGO -->
     <div class="topbar-left">
         <a href="{{ URL::route('principal') }}" class="logo">
-            <i class="zmdi zmdi-group-work icon-c-logo"></i>
+            <img src="{{ asset('assets/images/logo.png') }}" alt="img" class="img-thumbails" width="60px" height="auto">
             <span>SIAHO</span>
         </a>
     </div>

@@ -29,7 +29,18 @@ class NotificacionesController extends Controller
     public function index()
     {
         $notificaciones = Notificacion::All();
-        return view('notificaciones.index', compact('notificaciones'));
+
+        $notificaciones = \DB::select('SELECT notificaciones.id, notificaciones.fecha, notificaciones.lugar, notificaciones.trabajador, trabajadores.cedula, trabajadores.nombre, trabajadores.apellido,  (SELECT TIMESTAMPDIFF(YEAR,notificaciones.fecha,CURDATE()))  AS anios, (SELECT (TIMESTAMPDIFF(MONTH,notificaciones.fecha,CURDATE())) - (TIMESTAMPDIFF(YEAR,notificaciones.fecha,CURDATE()) * 12)) AS meses FROM notificaciones INNER JOIN trabajadores ON trabajadores.id= notificaciones.trabajador');
+
+        $contadorAdvertencias = 0;
+
+        foreach($notificaciones as $notificacion){
+            if($notificacion->meses >= 6 || $notificacion->anios > 0)
+                $contadorAdvertencias++;
+        }
+
+
+        return view('notificaciones.index', compact('notificaciones', 'contadorAdvertencias'));
     }
 
     /**
@@ -136,11 +147,11 @@ class NotificacionesController extends Controller
         if (\Request::ajax()) {
             return Response::json(array (
                 'success' => true,
-                'msg'     => 'Notificación en "' . $nombreCompleto .'" eliminada satisfactoriamente',
+                'msg'     => 'Inducción en "' . $nombreCompleto .'" eliminada satisfactoriamente',
                 'id'      => $id
             ));
         } else {
-            $mensaje = 'Notificación en "'. $nombreCompleto .'" eliminada satisfactoriamente';
+            $mensaje = 'Inducción en "'. $nombreCompleto .'" eliminada satisfactoriamente';
             Session::flash('message', $mensaje);
             return Redirect::route('notificaciones.index');
         }

@@ -7,15 +7,19 @@
 @section('contenido')
 @include('layouts.breadcrum', ['titulo' => "Cursos", 'tituloModulo' => "Cursos"])
 <div class="row">
+	<div class="col-sm-6 col-sm-offset-3">
+		<img src="{{ asset('assets/images/backgrounds/cursos.jpg') }}" alt="img" class="img-thumbails"><br><br>
+	</div>
 	<div class="col-sm-12">
 		<div class="card-box table-responsive">
-			<table id="datatable" class="table table-striped table-bordered">
+			<table id="datatable" class="table table-striped table-bordered datatableN">
 				<thead>
 					<tr>
 						<th>Trabajador</th>
-						<th>Curso</th>
 						<th>Horas</th>
-						<th>Horas Totales</th>
+						<th>Fecha</th>
+						<th>H. Total Mens.</th>
+						<th>H. Total Tri.</th>
 						<th>Acciones</th>
 					</tr>
 				</thead>
@@ -24,15 +28,18 @@
 					@foreach($cursos as $curso)
 						<tr>
                             <td>{{ $curso->nombreTrabajador->nombre.' '.$curso->nombreTrabajador->apellido }}</td>
-                            <td>{{ $curso->nombre }}</td>
                             <td>{{ $curso->horas }}</td>
+                            <td>{{ date_format(date_create($curso->fecha), 'd/m/Y') }}</td>
                             <td>
-                            	@if($CursosController->horasTotales($curso->trabajador) < 47)
+                            	{{ $CursosController->horasTotalesMensual($curso->trabajador, date_format(date_create($curso->fecha), 'm'), date_format(date_create($curso->fecha), 'Y')) }}
+                            </td>
+                            <td>
+                            	@if($CursosController->horasTrimestres($curso->trabajador, date_format(date_create($curso->fecha), 'm'), date_format(date_create($curso->fecha), 'Y')) < 16)
                             	<span class="label label-warning" style="font-size: 100%">
-                            	@elseif($CursosController->horasTotales($curso->trabajador) >= 47)
+                            	@elseif($CursosController->horasTrimestres($curso->trabajador, date_format(date_create($curso->fecha), 'm'), date_format(date_create($curso->fecha), 'Y')) >= 16)
                             	<span class="label label-success" style="font-size: 100%">
                             	@endif
-                            		{{ $CursosController->horasTotales($curso->trabajador) }}
+                            		{{ $CursosController->horasTrimestres($curso->trabajador, date_format(date_create($curso->fecha), 'm'), date_format(date_create($curso->fecha), 'Y')) }}
                             	</span>
                             </td>
 							<td>

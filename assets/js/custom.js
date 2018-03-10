@@ -15,6 +15,30 @@ function confirmSubmit(form, message) {
     } 
 }
 
+var changeDateFormat = $('.datatableN tbody tr').each(function(i,e) {
+    var dateTD = $(this).find('td:eq(2)');
+    var date = dateTD.text().trim();
+    var parts = date.split('/');
+    dateTD.text(parts[0]+'/'+parts[1]+'/'+parts[2]);
+});
+
+$.when(changeDateFormat).done(function() {
+    processDates(); 
+});
+
+function processDates() {
+    var process = $('.datatableN tbody tr').each(function(i,e) {
+        var dateTD = $(this).find('td:eq(2)');
+        var date = dateTD.text().trim();
+        var parts = date.split('/');
+        dateTD.prepend('<span style="display:none;">'+parts[2]+parts[1]+parts[0]+'</span>');
+    });
+
+    $.when(process).done(function() {
+        //$('.datatableN').DataTable();
+    })
+}
+
 toastr.options = {
     closeButton: true,
     debug: false,
@@ -496,6 +520,9 @@ $("form#trabajadorForm").validate({
 
 $("form#cursoForm").validate({
     rules: {
+        fecha: {
+            required: true
+        },
         nombre: {
             required: true
         },
@@ -508,6 +535,9 @@ $("form#cursoForm").validate({
         }
     },
     messages: {
+        fecha: {
+            required: 'Ingrese una fecha'
+        },
         nombre: {
             required: 'Ingrese un nombre'
         },
@@ -698,6 +728,9 @@ $("form#inspeccionForm").validate({
         },
         tipo: {
             required: true
+        },
+        sede: {
+            required: true
         }
     },
     messages: {
@@ -709,6 +742,9 @@ $("form#inspeccionForm").validate({
         }, 
         tipo: {
             required: 'Ingrese el tipo de inspección'
+        },
+        sede: {
+            required: 'Seleccione una opción'
         }
     },
     invalidHandler: function (event, validator) { 
@@ -865,7 +901,7 @@ $("form#notificacionForm").validate({
                         accion = 'registrada';
                     else if($("button#notificacionSubmit").attr('data') == 0)
                         accion = 'actualizada';
-                    var alertMessage = 'Notificación '+accion+'';
+                    var alertMessage = 'Inducción '+accion+'';
                     toastr["success"](alertMessage);
                     if($("button#notificacionSubmit").attr('data') == 1) {
                         $('form#notificacionForm').reset();

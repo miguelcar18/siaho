@@ -16,6 +16,10 @@
 					<td>{{ $curso->nombre }}</td>
 				</tr>
 				<tr>
+					<th>Fecha: </th>
+					<td>{{ date_format(date_create($curso->fecha), 'd/m/Y') }}</td>
+				</tr>
+				<tr>
 					<th>Horas: </th>
 					<td>{{ $curso->horas }}</td>
 				</tr>

@@ -20,6 +20,10 @@
 					<td>{{ date_format(date_create($inspeccion->fecha), 'd/m/Y') }}</td>
 				</tr>
 				<tr>
+					<th>Sede: </th>
+					<td>{{ $inspeccion->sede }}</td>
+				</tr>
+				<tr>
 					<th>Realizado: </th>
 					<td>
 						@if($inspeccion->realizado == 1)

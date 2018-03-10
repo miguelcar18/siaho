@@ -19,7 +19,7 @@ class Curso extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre', 'horas', 'trabajador'
+        'nombre', 'horas', 'trabajador', 'fecha'
     ];
 
     public function nombreTrabajador(){

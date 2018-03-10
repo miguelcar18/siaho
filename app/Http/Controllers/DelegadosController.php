@@ -29,7 +29,15 @@ class DelegadosController extends Controller
     public function index()
     {
         $delegados = \DB::select('SELECT delegados.id, delegados.fecha, delegados.tipo, delegados.trabajador, trabajadores.cedula, trabajadores.nombre, trabajadores.apellido,  (SELECT TIMESTAMPDIFF(YEAR,delegados.fecha,CURDATE()))  AS anios, (SELECT (TIMESTAMPDIFF(MONTH,delegados.fecha,CURDATE())) - (TIMESTAMPDIFF(YEAR,delegados.fecha,CURDATE()) * 12)) AS meses FROM delegados INNER JOIN trabajadores ON trabajadores.id= delegados.trabajador');
-        return view('delegados.index', compact('delegados'));
+
+        $contadorAdvertencias = 0;
+
+        foreach($delegados as $delegado){
+            if($delegado->anios >= 2)
+                $contadorAdvertencias++;
+        }
+
+        return view('delegados.index', compact('delegados', 'contadorAdvertencias'));
     }
 
     /**

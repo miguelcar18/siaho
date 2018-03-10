@@ -92,7 +92,7 @@
                     Route::getCurrentRoute()->getName() == 'notificaciones.edit' or 
                     Route::getCurrentRoute()->getName() == 'notificaciones.new')) active @endif ">
                         <i class="zmdi zmdi-tag"></i> 
-                        <span> Notificaciones </span> <span class="menu-arrow"></span>
+                        <span> Inducciones </span> <span class="menu-arrow"></span>
                     </a>
                     <ul class="list-unstyled">
                         <li @if(Route::getCurrentRoute()->getName() == 'notificaciones.index' or 
@@ -105,6 +105,7 @@
                         </li>
                     </ul>
                 </li>
+                {{--
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect @if(Route::getCurrentRoute()->getName() == 'politicas.index' or 
                     Route::getCurrentRoute()->getName() == 'politicas.show' or 
@@ -124,6 +125,7 @@
                         </li>
                     </ul>
                 </li>
+                --}}
             </ul>
             <div class="clearfix"></div>
         </div>

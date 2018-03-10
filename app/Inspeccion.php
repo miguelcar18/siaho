@@ -19,6 +19,6 @@ class Inspeccion extends Model
      * @var array
      */
     protected $fillable = [
-        'fecha', 'tipo', 'realizado'
+        'fecha', 'tipo', 'realizado', 'sede'
     ];
 }

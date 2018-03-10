@@ -1,37 +1,56 @@
 @extends('layouts.base')
 
 @section('titulo')
-<title>Listado de notificaciones - SIAHO</title>
+<title>Listado de inducciones - SIAHO</title>
 @stop
 
 @section('contenido')
-@include('layouts.breadcrum', ['titulo' => "Notificaciones", 'tituloModulo' => "Notificaciones"])
+@include('layouts.breadcrum', ['titulo' => "Inducciones", 'tituloModulo' => "Inducciones"])
 <div class="row">
+	<div class="col-sm-6 col-sm-offset-3">
+		<img src="{{ asset('assets/images/backgrounds/notificaciones.jpg') }}" alt="img" class="img-thumbails"><br><br>
+	</div>
 	<div class="col-sm-12">
 		<div class="card-box table-responsive">
-			<table id="datatable" class="table table-striped table-bordered">
+			@if($contadorAdvertencias > 0)
+			<div class="col-sm-12">
+				<div class="alert alert-danger" role="alert">
+					<strong>¡Advertencia!</strong> A algunos trabajadores deben de renovarles la inducción.
+				</div>
+			</div>
+			@endif
+			<table id="datatable" class="table table-striped table-bordered datatableN">
 				<thead>
 					<tr>
 						<th>Trabajador</th>
-						<th>Lugar</th>
 						<th>Fecha</th>
+						<th>Estado</th>
 						<th>Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
 					@foreach($notificaciones as $notificacion)
 						<tr>
-                            <td>{{ $notificacion->nombreTrabajador->nombre.' '.$notificacion->nombreTrabajador->apellido }}</td>
-                            <td>{{ $notificacion->lugar }}</td>
+                            <td>{{ $notificacion->nombre.' '.$notificacion->apellido }}</td>
+                            <td>
+                            	@if($notificacion->meses >= 6 || $notificacion->anios > 0)
+                            	<span class="label label-warning" style="font-size: 100%">
+                            		Renovar induccion
+                            	@elseif($notificacion->meses < 6 && $notificacion->anios == 0)
+                            	<span class="label label-success" style="font-size: 100%">
+                            		Actualizado
+                            	@endif
+                            	</span>
+                            </td>
                             <td>{{ date_format(date_create($notificacion->fecha), 'd/m/Y') }}</td>
 							<td>
-								<a href="{{ URL::route('notificaciones.show', $notificacion->id) }}" data-rel="tooltip" title="Mostrar {{ $notificacion->nombreTrabajador->cedula }}" objeto="{{ $notificacion->nombreTrabajador->cedula }}" class="btn waves-effect waves-light btn-primary"> 
+								<a href="{{ URL::route('notificaciones.show', $notificacion->id) }}" data-rel="tooltip" title="Mostrar {{ $notificacion->cedula }}" objeto="{{ $notificacion->cedula }}" class="btn waves-effect waves-light btn-primary"> 
 									<i class="fa fa-eye"></i>
 								</a>&nbsp;
-								<a href="{{ URL::route('notificaciones.edit', $notificacion->id) }}" class="tooltip-success editar btn waves-effect waves-light btn-warning " data-rel="tooltip" title="Editar {{ $notificacion->nombreTrabajador->cedula }}" objeto="{{ $notificacion->nombreTrabajador->cedula }}" style="text-decoration:none;"> 
+								<a href="{{ URL::route('notificaciones.edit', $notificacion->id) }}" class="tooltip-success editar btn waves-effect waves-light btn-warning " data-rel="tooltip" title="Editar {{ $notificacion->cedula }}" objeto="{{ $notificacion->cedula }}" style="text-decoration:none;"> 
 									<i class="fa fa-edit"></i>
 								</a>&nbsp;
-								<a href="#" data-id="{{ $notificacion->id }}" class="tooltip-error borrar btn waves-effect waves-light btn-danger" data-rel="tooltip" title="Eliminar {{ $notificacion->nombreTrabajador->cedula }}" objeto="{{ $notificacion->id }}"> 
+								<a href="#" data-id="{{ $notificacion->id }}" class="tooltip-error borrar btn waves-effect waves-light btn-danger" data-rel="tooltip" title="Eliminar {{ $notificacion->cedula }}" objeto="{{ $notificacion->id }}"> 
 									<i class="fa fa-trash"></i>
 								</a>
 							</td>

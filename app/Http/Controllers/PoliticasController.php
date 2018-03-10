@@ -29,7 +29,15 @@ class PoliticasController extends Controller
     public function index()
     {
         $politicas = \DB::select('SELECT politicas.id, politicas.fecha, politicas.trabajador, trabajadores.cedula, trabajadores.nombre, trabajadores.apellido,  (SELECT TIMESTAMPDIFF(YEAR,politicas.fecha,CURDATE()))  AS anios, (SELECT (TIMESTAMPDIFF(MONTH,politicas.fecha,CURDATE())) - (TIMESTAMPDIFF(YEAR,politicas.fecha,CURDATE()) * 12)) AS meses FROM politicas INNER JOIN trabajadores ON trabajadores.id= politicas.trabajador');
-        return view('politicas.index', compact('politicas'));
+
+        $contadorAdvertencias = 0;
+
+        foreach($politicas as $politica){
+            if($politica->meses >= 6 || $politica->anios > 0)
+                $contadorAdvertencias++;
+        }
+
+        return view('politicas.index', compact('politicas', 'contadorAdvertencias'));
     }
 
     /**
