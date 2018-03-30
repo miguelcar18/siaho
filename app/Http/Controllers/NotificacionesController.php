@@ -68,6 +68,8 @@ class NotificacionesController extends Controller
             $campos = [
                 'fecha' 		=> $fechaSql, 
                 'lugar'      	=> $request['lugar'],
+                'nombre'        => $request['nombre'],
+                'horas'         => $request['horas'],
                 'trabajador' 	=> $request['trabajador']
             ];
             Notificacion::create($campos);
@@ -119,6 +121,8 @@ class NotificacionesController extends Controller
             $campos = [
                 'fecha' 		=> $fechaSql, 
                 'lugar'      	=> $request['lugar'],
+                'nombre'        => $request['nombre'],
+                'horas'         => $request['horas'],
                 'trabajador' 	=> $request['trabajador']
             ];
             $notificacion->fill($campos);

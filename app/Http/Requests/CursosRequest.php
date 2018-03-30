@@ -28,6 +28,7 @@ class CursosRequest extends FormRequest
             case 'DELETE': { return []; }
             case 'POST': {
                 return [
+                    'fecha'         => 'required',
                     'nombre'        => 'required', 
                     'horas'         => 'required',
                     'trabajador'    => 'required'
@@ -35,6 +36,7 @@ class CursosRequest extends FormRequest
             }
             case 'PUT': {
                 return [
+                    'fecha'         => 'required',
                     'nombre'        => 'required', 
                     'horas'         => 'required',
                     'trabajador'    => 'required'
@@ -47,6 +49,7 @@ class CursosRequest extends FormRequest
 
     public function messages(){
         return [
+            'fecha.required'        => 'El campo :attribute es obligatorio.',
             'nombre.required'       => 'El campo :attribute es obligatorio.',
             'horas.required'        => 'El campo :attribute es obligatorio.', 
             'trabajador.required'   => 'El campo :attribute es obligatorio.'
@@ -55,6 +58,7 @@ class CursosRequest extends FormRequest
 
     public function attributes(){
         return [
+            'fecha'         => 'fecha',
             'nombre'        => 'nombre',
             'horas'         => 'horas', 
             'trabajador'    => 'trabajador'

@@ -55,6 +55,8 @@ class InspeccionesController extends Controller
             $campos = [
                 'fecha' 	=> $fechaSql, 
                 'tipo' 		=> $request['tipo'],
+                'lugar'     => $request['lugar'],
+                'sede'      => $request['sede'],
                 'realizado' => $request['realizado']
             ];
             Inspeccion::create($campos);
@@ -105,6 +107,8 @@ class InspeccionesController extends Controller
             $campos = [
                 'fecha' 	=> $fechaSql, 
                 'tipo' 		=> $request['tipo'],
+                'lugar'     => $request['lugar'],
+                'sede'      => $request['sede'],
                 'realizado' => $request['realizado']
             ];
             $inspeccion->fill($campos);

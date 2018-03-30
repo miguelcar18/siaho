@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Notificacion extends Model
+class Formacion extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'notificaciones';
+    protected $table = 'formaciones';
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +19,7 @@ class Notificacion extends Model
      * @var array
      */
     protected $fillable = [
-        'trabajador', 'lugar', 'fecha', 'nombre', 'horas'
+        'nombre', 'horas', 'trabajador', 'fecha'
     ];
 
     public function nombreTrabajador(){

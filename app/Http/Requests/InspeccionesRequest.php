@@ -30,6 +30,8 @@ class InspeccionesRequest extends FormRequest
                 return [
                     'fecha'        => 'required', 
                     'tipo'         => 'required',
+                    'sede'         => 'required',
+                    'lugar'        => 'required',
                     'realizado'    => 'required'
                 ];
             }
@@ -37,6 +39,8 @@ class InspeccionesRequest extends FormRequest
                 return [
                     'fecha'        => 'required', 
                     'tipo'         => 'required',
+                    'sede'         => 'required',
+                    'lugar'        => 'required',
                     'realizado'    => 'required'
                 ];
             }
@@ -49,6 +53,8 @@ class InspeccionesRequest extends FormRequest
         return [
             'fecha.required'       => 'El campo :attribute es obligatorio.',
             'tipo.required'        => 'El campo :attribute es obligatorio.', 
+            'sede.required'        => 'El campo :attribute es obligatorio.', 
+            'lugar.required'       => 'El campo :attribute es obligatorio.', 
             'realizado.required'   => 'El campo :attribute es obligatorio.'
         ];
     }
@@ -57,6 +63,8 @@ class InspeccionesRequest extends FormRequest
         return [
             'fecha'        => 'fecha',
             'tipo'         => 'tipo', 
+            'sede'         => 'sede', 
+            'lugar'        => 'lugar', 
             'realizado'    => 'realizado'
         ];
     }

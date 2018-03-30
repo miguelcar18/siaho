@@ -126,6 +126,30 @@
                     </ul>
                 </li>
                 --}}
+                <li class="has_sub">
+                    <a href="javascript:void(0);" class="waves-effect @if(Route::getCurrentRoute()->getName() == 'formaciones.index' or 
+                    Route::getCurrentRoute()->getName() == 'formaciones.show' or 
+                    Route::getCurrentRoute()->getName() == 'formaciones.edit' or 
+                    Route::getCurrentRoute()->getName() == 'formaciones.new')) active @endif ">
+                        <i class="zmdi zmdi-balance"></i> 
+                        <span> Formación CSSL </span> <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="list-unstyled">
+                        <li @if(Route::getCurrentRoute()->getName() == 'formaciones.index' or 
+                            Route::getCurrentRoute()->getName() == 'formaciones.show' or 
+                            Route::getCurrentRoute()->getName() == 'formaciones.edit')) class="active" @endif>
+                            <a href="{{ URL::route('formaciones.index') }}">Listado</a>
+                        </li>
+                        <li @if(Route::getCurrentRoute()->getName() == 'formaciones.create')) class="active" @endif>
+                            <a href="{{ URL::route('formaciones.create') }}">Agregar</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ URL::route('gestionSiaho') }}" class="waves-effect" @if(Route::getCurrentRoute()->getName() == 'gestionSiaho') active @endif ">
+                        <i class="zmdi zmdi-collection-pdf"></i><span> Gestión SIAHO </span>
+                    </a>
+                </li>
             </ul>
             <div class="clearfix"></div>
         </div>

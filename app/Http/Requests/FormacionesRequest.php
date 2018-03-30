@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NotificacionesRequest extends FormRequest
+class FormacionesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,18 +28,16 @@ class NotificacionesRequest extends FormRequest
             case 'DELETE': { return []; }
             case 'POST': {
                 return [
-                    'fecha'         => 'required', 
-                    'lugar'         => 'required',
-                    'nombre'        => 'required',
+                    'fecha'         => 'required',
+                    'nombre'        => 'required', 
                     'horas'         => 'required',
                     'trabajador'    => 'required'
                 ];
             }
             case 'PUT': {
                 return [
-                    'fecha'         => 'required', 
-                    'lugar'         => 'required',
-                    'nombre'        => 'required',
+                    'fecha'         => 'required',
+                    'nombre'        => 'required', 
                     'horas'         => 'required',
                     'trabajador'    => 'required'
                 ];
@@ -52,8 +50,7 @@ class NotificacionesRequest extends FormRequest
     public function messages(){
         return [
             'fecha.required'        => 'El campo :attribute es obligatorio.',
-            'lugar.required'        => 'El campo :attribute es obligatorio.', 
-            'nombre.required'       => 'El campo :attribute es obligatorio.', 
+            'nombre.required'       => 'El campo :attribute es obligatorio.',
             'horas.required'        => 'El campo :attribute es obligatorio.', 
             'trabajador.required'   => 'El campo :attribute es obligatorio.'
         ];
@@ -62,8 +59,7 @@ class NotificacionesRequest extends FormRequest
     public function attributes(){
         return [
             'fecha'         => 'fecha',
-            'lugar'         => 'lugar', 
-            'nombre'        => 'nombre', 
+            'nombre'        => 'nombre',
             'horas'         => 'horas', 
             'trabajador'    => 'trabajador'
         ];

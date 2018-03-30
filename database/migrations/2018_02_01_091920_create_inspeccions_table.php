@@ -18,6 +18,7 @@ class CreateInspeccionsTable extends Migration
             $table->date('fecha');
             $table->string('tipo');
             $table->string('sede');
+            $table->string('lugar');
             $table->integer('realizado');
             $table->timestamps();
         });

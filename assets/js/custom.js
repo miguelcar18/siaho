@@ -726,6 +726,9 @@ $("form#inspeccionForm").validate({
         realizado: {
             required: true
         },
+        lugar: {
+            required: true
+        },
         tipo: {
             required: true
         },
@@ -739,6 +742,9 @@ $("form#inspeccionForm").validate({
         },
         realizado: {
             required: 'Seleccione una opción'
+        },
+        lugar: {
+            required: 'Ingrese un lugar'
         }, 
         tipo: {
             required: 'Ingrese el tipo de inspección'
@@ -828,8 +834,15 @@ $("form#notificacionForm").validate({
         lugar:{
             required: true
         },
+        nombre:{
+            required: true
+        },
         trabajador: {
             required: true
+        },
+        horas: {
+            required: true, 
+            number: true
         }
     },
     messages: {
@@ -839,8 +852,15 @@ $("form#notificacionForm").validate({
         lugar:{
             required: 'Ingrese un lugar'
         },
+        nombre:{
+            required: 'Ingrese un nombre'
+        },
         trabajador: {
             required: 'Seleccione un trabajador'
+        },
+        horas: {
+            required: 'Ingrese las horas', 
+            number: 'Ingrese solo números'
         }
     },
     invalidHandler: function (event, validator) { 
@@ -999,6 +1019,110 @@ $("form#politicaForm").validate({
                     }
                 }             
                 $("button#politicaSubmit").removeClass('disabled');
+                $("button#cancelar").removeClass('disabled');
+            }
+        })
+        return false;
+    }
+});
+
+$("form#formacionForm").validate({
+    rules: {
+        fecha: {
+            required: true
+        },
+        nombre: {
+            required: true
+        },
+        trabajador: {
+            required: true
+        },
+        horas: {
+            required: true, 
+            number: true
+        }
+    },
+    messages: {
+        fecha: {
+            required: 'Ingrese una fecha'
+        },
+        nombre: {
+            required: 'Ingrese un nombre'
+        },
+        trabajador: {
+            required: 'Seleccione un trabajador'
+        }, 
+        horas: {
+            required: 'Ingrese las horas', 
+            number: 'Ingrese solo números'
+        }
+    },
+    invalidHandler: function (event, validator) { 
+        $('.alert-error', $('.login-form')).show();
+    },
+
+    highlight: function (e) {
+        $(e).closest('.form-group').removeClass('has-info').addClass('has-danger');
+    },
+
+    success: function (e) {
+        $(e).closest('.form-group').removeClass('has-danger').addClass('has-success');
+        $(e).remove();
+    },
+    errorPlacement: function (error, element) {
+        if(element.is(':checkbox') || element.is(':radio')) {
+            var controls = element.closest('.controls');
+            if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+            else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+        }
+        else if(element.is('.select2')) {
+            error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+        }
+        else if(element.is('.chzn-select')) {
+            error.insertAfter(element.siblings('[class*="chzn-container"]:eq(0)'));
+        }
+        else error.insertAfter(element);
+    },
+    submitHandler: function () {
+        var token = $("input[name=_token]").val();
+        var formData = new FormData($("form#formacionForm")[0]);
+        $.ajax({
+            url:  $("form#formacionForm").attr('action'),
+            type: $("form#formacionForm").attr('method'),
+            headers: {'X-CSRF-TOKEN' : token},
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend:function(){
+                $("button#formacionSubmit").addClass('disabled');
+                $("button#cancelar").addClass('disabled');
+            },
+            success:function(response){
+                var accion = '';
+                var alertMessage = '';
+                var count = 0;
+
+                if(response.validations == false){
+                    //alertMessage = "<b>Campos únicos:</b> <br>";
+                    $.each(response.errors, function(index, value){
+                        count++;
+                        alertMessage+= count+". "+value+"<br>";
+                    });
+                    toastr["warning"](alertMessage);
+                }
+                else if(response.validations == true){
+                    if($("button#formacionSubmit").attr('data') == 1)
+                        accion = 'registrado';
+                    else if($("button#formacionSubmit").attr('data') == 0)
+                        accion = 'actualizado';
+                    var alertMessage = 'Formación '+accion+'';
+                    toastr["success"](alertMessage);
+                    if($("button#formacionSubmit").attr('data') == 1) {
+                        $('form#formacionForm').reset();
+                        $('.form-group').removeClass('has-success');
+                    }
+                }             
+                $("button#formacionSubmit").removeClass('disabled');
                 $("button#cancelar").removeClass('disabled');
             }
         })

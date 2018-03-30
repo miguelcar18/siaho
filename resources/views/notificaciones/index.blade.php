@@ -23,8 +23,8 @@
 				<thead>
 					<tr>
 						<th>Trabajador</th>
-						<th>Fecha</th>
 						<th>Estado</th>
+						<th>Fecha</th>
 						<th>Acciones</th>
 					</tr>
 				</thead>

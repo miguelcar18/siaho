@@ -21,3 +21,7 @@ Route::resource('delegados', 'DelegadosController');
 Route::resource('inspecciones', 'InspeccionesController');
 Route::resource('notificaciones', 'NotificacionesController');
 //Route::resource('politicas', 'PoliticasController');
+Route::resource('formaciones', 'FormacionesController');
+Route::get('gestion-consultar', ['as' => 'gestionSiaho', 'uses' =>'ReporteController@consultar']);
+Route::post('gestion-consultar', ['as' => 'gestionSiaho', 'uses' =>'ReporteController@resultados']);
+Route::post('gestion-consultar-atm', ['as' => 'gestionSiahoAtm', 'uses' =>'ReporteController@resultadosAtm']);

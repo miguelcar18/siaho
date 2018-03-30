@@ -16,6 +16,10 @@
 					<td>{{ date_format(date_create($notificacion->fecha), 'd/m/Y') }}</td>
 				</tr>
 				<tr>
+					<th>Nombre: </th>
+					<td>{{ $notificacion->nombre }}</td>
+				</tr>
+				<tr>
 					<th>Lugar: </th>
 					<td>{{ $notificacion->lugar }}</td>
 				</tr>

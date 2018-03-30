@@ -24,6 +24,10 @@
 					<td>{{ $inspeccion->sede }}</td>
 				</tr>
 				<tr>
+					<th>Lugar: </th>
+					<td>{{ $inspeccion->lugar }}</td>
+				</tr>
+				<tr>
 					<th>Realizado: </th>
 					<td>
 						@if($inspeccion->realizado == 1)
