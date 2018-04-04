@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('titulo')
-    <title>Editar trabajador - SIAHO</title>
+    <title>Editar trabajador - HSI</title>
 @stop
 
 @section('contenido')

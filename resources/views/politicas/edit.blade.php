@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('titulo')
-    <title>Editar política - SIAHO</title>
+    <title>Editar política - HSI</title>
 @stop
 
 @section('contenido')

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('titulo')
-    <title>Nuevo delegado - SIAHO</title>
+    <title>Nuevo delegado - HSI</title>
 @stop
 
 @section('contenido')

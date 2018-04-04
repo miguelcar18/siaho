@@ -177,7 +177,7 @@ $("form#loginForm").validate({
                     $('div#respuesta').empty();
                 }
                 else {
-                    window.location = 'http://'+window.location.host+"/siaho";
+                    window.location = 'http://'+window.location.host+"/hsi";
                 }
             }
         })            

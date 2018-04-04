@@ -11,7 +11,7 @@
 
         <!-- App title -->
         @section('titulo')
-        <title>Inicio - SIAHO</title>
+        <title>Inicio - HSI</title>
         @show
 
         <!-- Notification css (Toastr) -->

@@ -1,11 +1,11 @@
 @extends('layouts.base')
 
 @section('titulo')
-    <title>Gestión - SIAHO</title>
+    <title>Gestión - HSI</title>
 @stop
 
 @section('contenido')
-@include('layouts.breadcrum', ['titulo' => "Getión SIAHO", 'tituloModulo' => "Getión SIAHO"])
+@include('layouts.breadcrum', ['titulo' => "Getión HSI", 'tituloModulo' => "Getión HSI"])
 <div class="row">
 	<div class="col-xs-12">
 		<div class="card-box">

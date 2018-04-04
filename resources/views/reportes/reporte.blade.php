@@ -1,7 +1,7 @@
 <html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <title>Gestión SIAHO - {{ $anio }}</title>
+        <title>Gestión HSI - {{ $anio }}</title>
         <link href="{{ asset('assets/images/favicon.ico') }}" rel="shortcut icon">
         <link rel="stylesheet" href="{{ asset('assets/css/pdf.css') }}">
         <style>

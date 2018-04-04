@@ -9,7 +9,7 @@
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
         <!-- App title -->
-        <title>Inicio de sesión - SIAHO</title>
+        <title>Inicio de sesión - HSI</title>
 
         <!-- Notification css (Toastr) -->
         <link href="{{ asset('assets/plugins/toastr/toastr.min.css') }}" rel="stylesheet" type="text/css" />

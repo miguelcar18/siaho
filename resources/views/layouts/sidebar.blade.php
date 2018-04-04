@@ -147,7 +147,7 @@
                 </li>
                 <li>
                     <a href="{{ URL::route('gestionSiaho') }}" class="waves-effect" @if(Route::getCurrentRoute()->getName() == 'gestionSiaho') active @endif ">
-                        <i class="zmdi zmdi-collection-pdf"></i><span> Gestión SIAHO </span>
+                        <i class="zmdi zmdi-collection-pdf"></i><span> Gestión HSI </span>
                     </a>
                 </li>
             </ul>

@@ -4,7 +4,7 @@
     <div class="topbar-left">
         <a href="{{ URL::route('principal') }}" class="logo">
             <img src="{{ asset('assets/images/logo.png') }}" alt="img" class="img-thumbails" width="60px" height="auto">
-            <span>SIAHO</span>
+            <span>HSI</span>
         </a>
     </div>
     <nav class="navbar navbar-custom">
