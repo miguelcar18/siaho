@@ -1,3 +1,18 @@
+### Instalación
+
+1.	Composer Install.
+2.	Remombrar el archivo env.example a .env e ingresar las opciones de usuario y clave de base de datos.
+
+***
+
+### Instalación usando Migration y Seeders
+
+1.	Crear la base de datos.
+2.	Ejecutar `php artisan migrate`.
+3.	Ejecutar el comando `php artisan migrate --seed`
+
+***
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
